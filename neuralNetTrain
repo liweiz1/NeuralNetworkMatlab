@@ -1,0 +1,23 @@
+function [model] = neuralNetTrain(input,output, net, maxIter, initIter)
+iter = 0;
+numExam = size(input,1);
+%while (error > threshold) & (iter < maxIter)
+while (iter < initIter)
+    iter = iter + 1;
+    for i = 1 : numExam
+        net = neuralNetwork_forward(input(i,:), net);
+        net = neuralNetBackwardInit(input(i,:),output(i),net);
+    end
+end
+
+iter = 0;
+while (iter < maxIter)
+    iter = iter + 1;
+    for i = 1 : numExam
+        net = neuralNetwork_forward(input(i,:), net);
+        net = neuralNetwork_backward(input(i,:),output(i),net);
+    end
+   % error = net.nodesValue{1, net.num_layer + 1} - output;
+end
+model = net;
+end
